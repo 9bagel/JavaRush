@@ -12,9 +12,9 @@ public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
-            OutputStream outputStream = new FileOutputStream(your_file_name);
-            InputStream inputStream = new FileInputStream(your_file_name);
+            //File your_file_name = File.("AAAAAAAAA.txt", null);
+            OutputStream outputStream = new FileOutputStream("C:\\Users\\Denis\\Desktop\\test.txt");
+            InputStream inputStream = new FileInputStream("C:\\Users\\Denis\\Desktop\\test.txt");
 
             Human ivanov = new Human("Ivanov", new Asset("home", 999_999.99), new Asset("car", 2999.99));
             ivanov.save(outputStream);
@@ -24,6 +24,7 @@ public class Solution {
             somePerson.load(inputStream);
             inputStream.close();
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
+            System.out.println(ivanov.equals(somePerson));
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -68,10 +69,42 @@ public class Solution {
 
         public void save(OutputStream outputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            PrintWriter printWriter = new PrintWriter(outputStream);
+
+            boolean isPropertyPresent = name != null;
+            printWriter.println(isPropertyPresent);
+
+            if (isPropertyPresent)
+                printWriter.println(name);
+
+            isPropertyPresent = assets != null;
+            printWriter.println(isPropertyPresent);
+
+            if (isPropertyPresent)
+                assets.forEach(asset -> {
+                    printWriter.print(asset.getName() + " ");
+                    printWriter.println(asset.getPrice());
+                });
+
+            printWriter.flush();
         }
 
         public void load(InputStream inputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            boolean isPropertyPresent = Boolean.parseBoolean(reader.readLine());
+            if (isPropertyPresent)
+                name = reader.readLine();
+
+            isPropertyPresent = Boolean.parseBoolean(reader.readLine());
+            if (isPropertyPresent) {
+                while (reader.ready()) {
+                    String[] tmp = reader.readLine().split(" ");
+                    assets.add(new Asset(tmp[0], Double.parseDouble(tmp[1])));
+                }
+            }
+
         }
     }
 }
