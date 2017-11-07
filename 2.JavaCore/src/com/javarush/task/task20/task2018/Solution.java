@@ -1,6 +1,9 @@
 package com.javarush.task.task20.task2018;
 
 import java.io.*;
+import java.util.Date;
+
+import static java.lang.System.*;
 
 /* 
 Найти ошибки
@@ -21,6 +24,7 @@ public class Solution implements Serializable {
         public B(String name) {
             super(name);
             this.name += name;
+            out.println();
         }
 
         private void writeObject(ObjectOutputStream out) throws IOException {
@@ -40,7 +44,7 @@ public class Solution implements Serializable {
 
         Solution solution = new Solution();
         B b = solution.new B("B2");
-        System.out.println(b.name);
+        out.println(b.name);
 
         oos.writeObject(b);
 
@@ -48,6 +52,6 @@ public class Solution implements Serializable {
         ObjectInputStream ois = new ObjectInputStream(arrayInputStream);
 
         B b1 = (B) ois.readObject();
-        System.out.println(b1.name);
+        out.println(b1.name);
     }
 }
