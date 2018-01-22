@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /* 
 Самые-самые
@@ -15,33 +13,27 @@ import java.util.Map;
 public class Solution {
     public static void main(String[] args) throws Exception {
         //напишите тут ваш код
-        List<String> list = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             for (int i = 0; i < 10; i++) {
-                list.add(reader.readLine());
+                strings.add(reader.readLine());
             }
         }
-        Map<Integer, String > shortest = new HashMap<>();
-        shortest.put(0, list.get(0));
-        int tmpShort = 0;
 
-        Map<Integer, String > longest = new HashMap<>();
-        longest.put(0, list.get(0));
-        int tmpLong = 0;
+        int minIndex = 0, maxIndex = 0;
 
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).length() > longest.get(tmpLong).length()) {
-                longest.put(i, list.get(i));
-                tmpLong = i;
+        for (int i = 1; i < strings.size(); i++) {
+
+            if (strings.get(i).length() > strings.get(maxIndex).length()) {
+                maxIndex = i;
             }
-            if (list.get(i).length() < shortest.get(tmpShort).length()) {
-                shortest.put(i, list.get(i));
-                tmpShort = i;
+
+            if (strings.get(i).length() < strings.get(minIndex).length()) {
+                minIndex = i;
             }
+
         }
-        if (tmpLong <= tmpShort)
-            System.out.println(longest.get(tmpLong));
-        else System.out.println(shortest.get(tmpShort));
+        System.out.printf("%s", strings.get(minIndex < maxIndex ? minIndex : maxIndex));
     }
 }
